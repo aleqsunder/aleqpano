@@ -1,0 +1,105 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<title>Главная - Unnamed</title>
+		
+		<link href='styles/main.css' rel='stylesheet'>
+		<script src='js/log.js'></script>
+		<script src='js/aleqpano.js'></script>
+	</head>
+	
+	<body>
+		<header>
+		</header>
+		
+		<main>
+			<panorama></panorama>
+			
+			<page>
+				<top>
+					Lorem ipsum dolor sit amet
+				</top>
+				<middle>
+					Consectetur adipiscing elit. Suspendisse vitae convallis massa, vitae eleifend eros. Aliquam eros metus, congue ac nisl quis, tempor malesuada orci. Integer non justo at turpis pharetra rhoncus. Aliquam aliquam erat quis velit mollis sodales. Praesent venenatis augue a sem tempor, sed pharetra elit maximus. Sed dapibus neque nisl, posuere pellentesque lacus pellentesque eu. Suspendisse eu mauris hendrerit, vehicula ex id, aliquam libero. Donec sed aliquam justo. In et enim tempus, sagittis justo ac, porttitor diam. Etiam hendrerit malesuada tortor id faucibus.
+				</middle>
+			</page>
+			
+			<script>
+				let array = [ 
+						{ image: 'example/img/pano_1.jpg', speed: 0.05 }, 
+						{ image: 'example/img/pano_2.jpg', speed: 0.04 }, 
+						{ image: 'example/img/pano_3.jpg', speed: 0.02 },
+						{ image: 'example/img/pano_4.jpg', speed: 0.008 }
+					],
+					
+					random = Math.floor(Math.random() * array.length),
+					
+					background = new Aleqpano
+					({
+						obj: document.querySelector('panorama'),
+						background: array[random].image,
+						speed: array[random].speed,
+						direction: 'mouse'
+					});
+				
+				background.loadImage
+				({
+					onStart: function ()
+					{
+						background.styleSet('loading', `
+							page.loading:before
+							{
+								position: absolute;
+								content: '';
+								width: 5%;
+								height: 2px;
+								top: -2px;
+								
+								background: #aaa;
+								animation: loading-top 2s infinite ease-in-out;
+							}
+
+							page.loading:after
+							{
+								position: absolute;
+								content: '';
+								width: 5%;
+								height: 2px;
+								bottom: -2px;
+								
+								background: #aaa;
+								animation: loading-bottom 2s infinite ease-in-out;
+							}
+							
+							@keyframes loading-top
+							{
+								0%, 100% { left: 0px; }
+								
+								50% { left: 95%; }
+							}
+
+							@keyframes loading-bottom
+							{
+								0%, 100% { right: 0px; }
+								
+								50% { right: 95%; }
+							}
+						`);
+						
+						document.querySelector('page').classList.add('loading');
+					},
+					
+					onLoad: function ()
+					{
+						document.querySelector('style#loading').outerHTML = '';
+						document.querySelector('page').classList.remove('loading');
+						background.init();
+					}
+				});
+			</script>
+		</main>
+		
+		<footer>
+		</footer>
+	</body>
+</html>
