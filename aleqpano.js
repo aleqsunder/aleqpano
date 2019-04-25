@@ -23,6 +23,8 @@ if (!log.enable)
 	var log = function (title, text) { console.log(title, text) }
 	log.error = function (title, text) { console.error(title, text) }
 	log.warn = function (title, text) { console.warn(title, text) }
+	
+	log.warn('log.js', 'не найден');
 }
 
 class Aleqpano
